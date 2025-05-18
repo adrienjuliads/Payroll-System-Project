@@ -15,7 +15,9 @@ public class GUI extends JFrame {
     // Employee panel components
     private JTable employeeTable;
     private DefaultTableModel employeeTableModel;
-    private JTextField ID, Name, Position, Salary;
+    private JTextField ID, Firstname, Lastname, Position, Salary;
+
+    private JButton calculatePayrollButton;
 
     // Attendance panel components
     private JTable attendanceTable;
@@ -186,10 +188,5 @@ public class GUI extends JFrame {
         Salary.setText("");
     }
 
-    public static void main(String[] args) {
-        FirebaseConfig.initialize();
-
-        SwingUtilities.invokeLater(() -> new GUI().setVisible(true));
-    }
 
 }
