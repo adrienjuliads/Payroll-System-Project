@@ -80,6 +80,11 @@ public class Employee {
         }
 
         public int getDaysWorked(LocalDate startDate, LocalDate endDate) {
+
+            if (!startDate.withDayOfMonth(1).equals(endDate.withDayOfMonth(endDate.lengthOfMonth()))) {
+                throw new IllegalArgumentException("Pay period must cover a full month");
+            }
+            
             int daysWorked = 0;
 
             for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
