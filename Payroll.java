@@ -55,7 +55,7 @@ public class Payroll {
 
     private void calculateBasicPay() {
         // Semi-monthly pay (1/2 of monthly salary)
-        this.grossPay = employee.getBasicSalary();
+        this.grossPay = employee.getBasicSalary() / 2;
     }
 
     private void calculateOvertime() {
