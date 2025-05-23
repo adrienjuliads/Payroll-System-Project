@@ -466,11 +466,26 @@ public class GUI extends JFrame {
     private void generateYearEndReport() {
         StringBuilder report = new StringBuilder("Year-End Tax Report\n\n");
         employees.values().forEach(emp -> {
+            // Calculate Annual Gross Income (sum of all gross pays)
+            double annualGross = emp.getPayrollHistory().stream()
+                    .mapToDouble(Payroll::getGrossPay)
+                    .sum();
+
+            // Calculate Annual Taxable Income (Gross - Non-taxable deductions)
+            double annualTaxable = emp.getPayrollHistory().stream()
+                    .mapToDouble(p -> p.getGrossPay()
+                            - p.getSssDeduction()
+                            - p.getPhilHealthDeduction()
+                            - p.getPagIbigDeduction())
+                    .sum();
+
             double annualTax = emp.getPayrollHistory().stream()
                     .mapToDouble(Payroll::getWithholdingTax)
-                    .sum() * 2; // Semi-monthly x 24 periods
+                    .sum(); // Monthly x 12 periods
             report.append(String.format("Employee: %s %s (ID: %s)\n",
                     emp.getFirstName(), emp.getLastName(), emp.getId()));
+            report.append(String.format(" Gross Income: ₱%,.2f\n", annualGross));
+            report.append(String.format(" Taxable Income: ₱%,.2f\n", annualTaxable));
             report.append(String.format(" Total Annual Tax: ₱%.2f\n\n", annualTax));
             report.append("----------------------------\n");
         });
